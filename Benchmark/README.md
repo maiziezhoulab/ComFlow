@@ -1,2 +1,2 @@
+[View the README for scHolograpgy](https://github.com/YiLab-SC/scHolography/blob/main/README.md)
 
-[Link Text](https://github.com/YiLab-SC/scHolography/tree/main)
