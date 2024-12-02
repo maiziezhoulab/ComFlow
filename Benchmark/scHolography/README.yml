@@ -1,0 +1,27 @@
+name: Sync README
+
+on:
+  schedule:
+    - cron: '0 0 * * 0' # Runs weekly
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Fetch README from RepoB
+        run: |
+          curl -o RepoB-README.md https://github.com/YiLab-SC/scHolography/blob/main/README.md
+          echo -e "# Combined README\n\n" > README.md
+          cat RepoB-README.md >> README.md
+
+      - name: Commit and Push Changes
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add README.md
+          git commit -m "Update README with content from RepoB"
+          git push
