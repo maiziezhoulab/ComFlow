@@ -68,26 +68,7 @@ for (i in 2:5){
 # if low.res.sp data has not been preprocessed, set stProcessed = F
 sp.integrated <- dataAlign(low.res.sp =data_1,high.res.sp =com_obj,nPCtoUse = 32,scProcessed = F,future.size = 8000)
 scHolography.obj<-trainHolography(sp.integrated,n.slot = 30,n.pcUse = 32,n.pcOut = 32,n.repeat = 30)
-
-### Set the original cluster as factor
-scHolography.obj$scHolography.sc$original_clusters<- factor(as.character(scHolography.obj$scHolography.sc$original_clusters),levels = c('BST','MPA','MPN','PV','PVH','PVT','V3','fx'))
-
-### To orient the plot in a more intuitive way
-scHolography.obj$scHolography.sc$z3d_sp <- -scHolography.obj$scHolography.sc$z3d_sp
-scHolography.obj$scHolography.sc$x3d_sp <- -scHolography.obj$scHolography.sc$x3d_sp
-scHolography.obj$scHolography.sc$y3d_sp <- -scHolography.obj$scHolography.sc$y3d_sp
-scene = list(camera = list(eye = list(x = -1, z = 0, y = 2)))
-
-### To visualize the 3D structure colored by celltype
-scHolographyPlot(scHolography.obj,color.by = "original_clusters")%>% plotly::layout(scene = scene)
-### cluster distance boxplot
-clusterDistanceBoxplot(scHolography.obj,annotationToUse = "original_clusters",reference.cluster = "MPA",query.cluster.list = c('BST','MPA','MPN','PV','PVH','PVT','V3','fx'))
-
-neighbor.comp<- scHolographyNeighborCompPlot(scHolography.obj,annotationToUse = "original_clusters",query.cluster = c('BST','MPA','MPN','PV','PVH','PVT','V3','fx'))
-
-my.color.order= c('#1F77B4','#FF7F0E','#2CA02C','#D62728','#9467BD','#8C564B','#E377C2','#7F7F7F') # color order for the plot
-neighbor.comp$neighbor.comp.plot+scale_fill_manual(values = my.color.order)
-
+ 
 ## 2. Load DLPFC data
 data_list=c('151507','151508','151509','151510','151669','151670','151671','151672','151673','151674','151675','151676')
 create_obj_DLPFC<-function(data_name,slice_order){
@@ -146,14 +127,6 @@ DLPFC_3=run_DLPFC_sample(sample_num = 2)
 sp.integrated <- dataAlign(low.res.sp =DLPFC_3$ref,high.res.sp =DLPFC_3$query, nPCtoUse = 32,scProcessed = F,future.size = 20000)
 scHolography.obj<-trainHolography(sp.integrated,n.slot = 30,n.pcUse = 32,n.pcOut = 32,n.repeat = 30)
  
-scHolography.obj$scHolography.sc$original_clusters <- factor(as.character(scHolography.obj$scHolography.sc$original_clusters),levels = c(0,1,2,3,4,5,6))
-
-### To orient the plot in a more intuitive way
-scHolography.obj$scHolography.sc$z3d_sp <- -scHolography.obj$scHolography.sc$z3d_sp
-scHolography.obj$scHolography.sc$x3d_sp <- -scHolography.obj$scHolography.sc$x3d_sp
-scHolography.obj$scHolography.sc$y3d_sp <- -scHolography.obj$scHolography.sc$y3d_sp
-scene = list(camera = list(eye = list(x = -1, z = 0, y = 2)))
-
 ### 3. Load simulate data
 create_obj_simu<-function(data_name,slice_order){
   matrix_dir=pathJoin('/home/data3/yuling/xenium_region2_5599/simData',data_name)
@@ -188,19 +161,4 @@ for (i in 1:5){
 }
 sp.integrated <- dataAlign(low.res.sp =data_1,high.res.sp =com_obj,nPCtoUse = 32,scProcessed = F,future.size = 8000)
 scHolography.obj<-trainHolography(sp.integrated,n.slot = 30,n.pcUse = 32,n.pcOut = 32,n.repeat = 30)
-scHolography.obj$scHolography.sc$original_clusters<- factor(as.character(scHolography.obj$scHolography.sc$original_clusters),levels = c(0,1,2,3,4,5,6))
-
-### To orient the plot in a more intuitive way
-scHolography.obj$scHolography.sc$z3d_sp <- -scHolography.obj$scHolography.sc$z3d_sp
-scHolography.obj$scHolography.sc$x3d_sp <- -scHolography.obj$scHolography.sc$x3d_sp
-scHolography.obj$scHolography.sc$y3d_sp <- -scHolography.obj$scHolography.sc$y3d_sp
-scene = list(camera = list(eye = list(x = -1, z = 0, y = 2)))
-### To visualize the 3D structure colored by celltype
-scHolographyPlot(scHolography.obj,color.by = "original_clusters")%>% plotly::layout(scene = scene)
-### cluster distance boxplot
-clusterDistanceBoxplot(scHolography.obj,annotationToUse = "original_clusters",reference.cluster = 0,query.cluster.list =c(1,2,3,4,5,6))
-
-neighbor.comp<- scHolographyNeighborCompPlot(scHolography.obj,annotationToUse = "original_clusters",query.cluster = c(0,1,2,3,4,5,6))
-
-my.color.order= c('#1F77B4','#FF7F0E','#2CA02C','#D62728','#9467BD','#8C564B','#E377C2') # color order for the plot
-neighbor.comp$neighbor.comp.plot+scale_fill_manual(values = my.color.order)
+ 
