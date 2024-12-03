@@ -449,7 +449,8 @@ zipp                      3.15.0                   pypi_0    pypi
 zlib                      1.2.13               h03a7124_4    conda-forge
 zstd                      1.5.2                hf913c23_6    conda-forge
 ```
-
+## Acknowledgement
+original repository link: https://github.com/YiLab-SC/scHolography/
 
 
 
