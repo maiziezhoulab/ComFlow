@@ -145,10 +145,7 @@ scHolography.obj<-trainHolography(sp.integrated,n.slot = 30,n.pcUse = 32,n.pcOut
 DLPFC_3=run_DLPFC_sample(sample_num = 2)
 sp.integrated <- dataAlign(low.res.sp =DLPFC_3$ref,high.res.sp =DLPFC_3$query, nPCtoUse = 32,scProcessed = F,future.size = 20000)
 scHolography.obj<-trainHolography(sp.integrated,n.slot = 30,n.pcUse = 32,n.pcOut = 32,n.repeat = 30)
-
-sp.integrated <- dataAlign(low.res.sp =data_1,high.res.sp =com_obj,nPCtoUse = 32,scProcessed = F,future.size = 8000)
-scHolography.obj<-trainHolography(sp.integrated,n.slot = 30,n.pcUse = 32,n.pcOut = 32,n.repeat = 30)
-
+ 
 scHolography.obj$scHolography.sc$original_clusters <- factor(as.character(scHolography.obj$scHolography.sc$original_clusters),levels = c(0,1,2,3,4,5,6))
 
 ### To orient the plot in a more intuitive way
