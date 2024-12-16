@@ -78,27 +78,27 @@ Create Seurat object:
 ```r
 data_list=c('151507','151508','151509','151510')
 create_obj<-function(data_name,slice_order){
-matrix_dir=pathJoin('/home/data3/yuling/xenium_region2_5599/Dataset/DLPFC12',data_name,'filtered_feature_bc_matrix/')
-counts = Seurat::Read10X(data.dir = matrix_dir) 
-data = Seurat::CreateSeuratObject(
-    counts = counts , 
-    project = 'test', 
-    assay = 'Spatial')
-data$slice = slice_order
-data$region = 'test' 
-imgpath = pathJoin('/home/data3/yuling/xenium_region2_5599/Dataset/DLPFC12',data_name,'spatial')
-img = Seurat::Read10X_Image(image.dir = imgpath)  
-Seurat::DefaultAssay(object = img) <- 'Spatial'  
-img = img[colnames(x = data)]  
-data[['image']] = img
+  matrix_dir=pathJoin('/home/data3/yuling/xenium_region2_5599/Dataset/DLPFC12',data_name,'filtered_feature_bc_matrix/')
+  counts = Seurat::Read10X(data.dir = matrix_dir) 
+  data = Seurat::CreateSeuratObject(
+      counts = counts , 
+      project = 'test', 
+      assay = 'Spatial')
+  data$slice = slice_order
+  data$region = 'test' 
+  imgpath = pathJoin('/home/data3/yuling/xenium_region2_5599/Dataset/DLPFC12',data_name,'spatial')
+  img = Seurat::Read10X_Image(image.dir = imgpath)  
+  Seurat::DefaultAssay(object = img) <- 'Spatial'  
+  img = img[colnames(x = data)]  
+  data[['image']] = img
  
-meta_1<-read.csv(pathJoin('/home/data3/yuling/xenium_region2_5599/Dataset/DLPFC12', data_name,'gt/tissue_positions_list_GTs.txt'),header=FALSE)
-colnames(meta_1)[7] <- "original_clusters"
-colnames(meta_1)[1] <- "cell_id"
-meta_1<-meta_1[order(meta_1$cell_id),]
-rownames(meta_1)<-meta_1$cell_id
-data <- AddMetaData(data, metadata =meta_1['original_clusters'],col.name = "original_clusters")
-seurat_obj<- RenameCells(data, add.cell.id = paste0("Obj",slice_order))
+  meta_1<-read.csv(pathJoin('/home/data3/yuling/xenium_region2_5599/Dataset/DLPFC12', data_name,'gt/tissue_positions_list_GTs.txt'),header=FALSE)
+  colnames(meta_1)[7] <- "original_clusters"
+  colnames(meta_1)[1] <- "cell_id"
+  meta_1<-meta_1[order(meta_1$cell_id),]
+  rownames(meta_1)<-meta_1$cell_id
+  data <- AddMetaData(data, metadata =meta_1['original_clusters'],col.name = "original_clusters")
+  seurat_obj<- RenameCells(data, add.cell.id = paste0("Obj",slice_order))
   return (seurat_obj)
 }
 ```
