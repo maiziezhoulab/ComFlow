@@ -131,27 +131,12 @@ combined_obj <- merge(
 ![](img/skin.sc.umap.png)
 
 scHolography can take in objects directly after quality control and automatically perform normalization before integration. `dataAlign` integrations expression data from scRNA-seq and ST modalities. `trainHolography` trains neural network models and infers a SMN graph.
-```r
-sp.integrated <- dataAlign(low.res.sp,high.res.sp,nPCtoUse = 32,scProcessed = T)
-scHolography.obj<-trainHolography(sp.integrated,n.slot = 30,n.pcUse = 32,n.pcOut = 32,n.repeat = 30)
-```
-### Visualization by Celltype
+ 
+### Visualization
 
-The reconstruction results can be visualized in 3D with `scHolographyPlot`:
-```r
-### Set the celltype as factor
-scHolography.obj$scHolography.sc$celltype<- factor(as.character(scHolography.obj$scHolography.sc$celltype),levels = c("Basal" ,"Endothelial","Dermal",  "Glandular Epithelium","Immune" , "Lymphatic Endothelial" ,"Melanocyte" ,"Schwann" ,"Smooth Muscle"  , "Suprabasal"  ))
-
-### To orient the plot in a more intuitive way
-scHolography.obj$scHolography.sc$z3d_sp <- -scHolography.obj$scHolography.sc$z3d_sp
-scHolography.obj$scHolography.sc$x3d_sp <- -scHolography.obj$scHolography.sc$x3d_sp
-scHolography.obj$scHolography.sc$y3d_sp <- -scHolography.obj$scHolography.sc$y3d_sp
-scene = list(camera = list(eye = list(x = -1, z = 0, y = 2)))
-
-### To visualize the 3D structure colored by celltype
-scHolographyPlot(scHolography.obj,color.by = "celltype")%>% plotly::layout(scene = scene)
-```
-![](img/skin.sc.scHolo.vis.png)
+We visualize the reconstruction results in 3D with `SPACEL`:
+ 
+![](img/DLPFC.png)
 
 ### Visualization by Features
 
