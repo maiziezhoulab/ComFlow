@@ -69,6 +69,9 @@ library(ggplot2)
 library(dplyr)
 library(RColorBrewer)
 library(viridis)
+library(Gmisc)
+library(dplyr)
+library(plotly)
 ```
 
 Create Seurat object:
@@ -132,139 +135,13 @@ combined_obj <- merge(
 
 scHolography can take in objects directly after quality control and automatically perform normalization before integration. `dataAlign` integrations expression data from scRNA-seq and ST modalities. `trainHolography` trains neural network models and infers a SMN graph.
  
-### Visualization
+### 2. Visualization
 
 We visualize the reconstruction results in 3D with `SPACEL`:
  
 ![](img/DLPFC.png)
 
-### Visualization by Features
-
-scHolography also assists visualizations of different features on the reconstructed 3D structure. Here, we show three layer neuron marker expression. 
-```r
-scHolographyPlot(scHolography.obj,feature  = "KRT10")%>% plotly::layout(scene = scene)
-```
-![](img/skin.sc.scHolo_K10.vis.png)
-```r
-scHolographyPlot(scHolography.obj,feature = "KRT5")%>% plotly::layout(scene = scene)
-```
-![](img/skin.sc.scHolo_K5.vis.png)
-```r
-scHolographyPlot(scHolography.obj,feature = "COL1A2")%>% plotly::layout(scene = scene)
-```
-![](img/skin.sc.scHolo_COL1A2vis.png)
-```r
-scHolographyPlot(scHolography.obj,feature = "ACTA2")%>% plotly::layout(scene = scene)
-```
-![](img/skin.sc.scHolo_ACTA2vis.png)
-
-## 2. SMN Distance and First-Degree Neighbors
-
-### clusterDistanceBoxplot
-Based on the reconstructed graph, scHolography can investigate spatial relationship among cell clusters of interest by calculating their SMN distances. Here we demonstrate a boxplot for distances between the major skin cells to all smooth muscle cells.
-
-```r
-clusterDistanceBoxplot(scHolography.obj,annotationToUse = "celltype",reference.cluster = "Smooth Muscle",query.cluster.list = c("Suprabasal","Basal","Dermal","Smooth Muscle"))
-```
-![](img/skin.sc.clusterDistance.png)
-
-### scHolographyNeighborCompPlot
-For each cell cluster, we can further examine its inferred microenvironment by dissecting their first-degree neighbor cell type composition on the SMN graph. scHolography enables this query with `scHolographyNeighborCompPlot`. This function output **1.** first-degree neighbor composition plot of all neighbors; **2.** first-degree neighbor composition plot for only enriched neighboring cell types; **3.** significance levels for each enriched neighboring cell type.
-
-```r
-neighbor.comp<- scHolographyNeighborCompPlot(scHolography.obj,annotationToUse = "celltype",query.cluster = c("Suprabasal","Basal","Glandular Epithelium","Dermal","Endothelial","Lymphatic Endothelial","Smooth Muscle", "Schwann","Immune","Melanocyte"))
-
-my.color.order= c("#A6CEE3" ,"#79C360", "#3F8EAA" ,colorRampPalette(brewer.pal(12,"Paired"))(10)[4:10] ) # color order for the plot
-
-neighbor.comp$neighbor.comp.plot+scale_fill_manual(values = my.color.order)
-```
-![](img/neighbor.comp.plot.png)
-
-```r
-neighbor.comp$neighbor.comp.sig.plot+scale_fill_manual(values = my.color.order)
-```
-![](img/neighbor.comp.sig.plot.png)
-
-```r
-neighbor.comp$significance
-```
-
-```
-$Suprabasal
-Suprabasal 
-         0 
-
-$Basal
-       Basal   Suprabasal 
-0.0000000000 0.0002323026 
-
-$`Glandular Epithelium`
-Glandular Epithelium 
-                   0 
-
-$Dermal
-               Dermal           Endothelial Lymphatic Endothelial               Schwann 
-         0.000000e+00          1.252084e-13          1.381670e-28          3.444694e-29 
-        Smooth Muscle 
-         3.282852e-40 
-
-$Endothelial
-          Endothelial Lymphatic Endothelial               Schwann         Smooth Muscle 
-         0.000000e+00          3.718200e-02          1.030445e-05          2.715165e-11 
-
-$`Lymphatic Endothelial`
-                Basal                Dermal           Endothelial  Glandular Epithelium 
-         2.298314e-10          1.070546e-06          1.277586e-11          1.084878e-17 
-               Immune Lymphatic Endothelial               Schwann 
-         2.852786e-10         8.049785e-148          8.850146e-05 
-
-$`Smooth Muscle`
-Smooth Muscle 
-3.447845e-194 
-
-$Schwann
-  Endothelial       Schwann 
- 4.107800e-02 8.314729e-259 
-
-$Immune
-                Basal                Immune Lymphatic Endothelial            Melanocyte 
-         2.309712e-06         2.654720e-235          8.292197e-06          2.322086e-07 
-
-$Melanocyte
-        Basal   Endothelial        Immune    Melanocyte    Suprabasal 
- 4.217856e-04  1.134285e-02  4.239131e-26 1.380532e-155  2.910273e-03 
-
-```
-
-## 3. Spatial Neighborhoods
-
-The `findSpatialNeighborhood` function aims to define distinct spatial neighborhoods and study single-cell spatial heterogeneity in a transcriptome-spatial integrated manner. First, the function decides the number of distinct neighborhoods to define from scHolography inferred query cell spatial distribution. The silhouette coefficient optimizes the number of spatial neighborhoods. The accumulated SMN expression profile of SMNs for each query cell is defined as the sum of the scRNA-seq count of all SMNs of the query cell. The accumulated SMN expression matrix is normalized and the spatial neighborhoods are defined using K-means clustering with the optimized cluster number or by setting the `nNeighborhood`. Differentially expressed genes are found for both accumulated SMN and single-cell expressions of each spatial neighborhood. In this example, we investigate the spatial neighborhood of human dermal cells.
-
-
-```r  
-#Find the spatial neighborhood of Dermal cells
-spatial.neighbor.Dermal <- findSpatialNeighborhood(scHolography.obj ,annotationToUse = "celltype",query.cluster = c("Dermal"),orig.assay = "RNA",nNeighborhood = 4)
-
-#Rename the spatial neighborhood and Define the color for the plot
-spatial.neighbor.Dermal$scHolography.obj$scHolography.sc$spatial.neighborhood[which(spatial.neighbor.Dermal$scHolography.obj$scHolography.sc$spatial.neighborhood%in%c(as.character(1:4)))] <- paste0("Dermal_",spatial.neighbor.Dermal$scHolography.obj$scHolography.sc$spatial.neighborhood[which(spatial.neighbor.Dermal$scHolography.obj$scHolography.sc$spatial.neighborhood%in%c(as.character(1:4)))])
-fib.sp.col <-  c(c(colorRampPalette(brewer.pal(12,"Paired"))(10)[1],(brewer.pal(4,"Greens"))),colorRampPalette(brewer.pal(12,"Paired"))(10)[c(2,4:10)])
-
-#Plot the spatial neighborhood
-scHolography::scHolographyPlot(spatial.neighbor.Dermal$scHolography.obj,color.by = "spatial.neighborhood",color = fib.sp.col)%>% plotly::layout(scene = scene)
-```
-![](img/derm.spatial.neighbors.png)
-
-We can  visualize the expression of the top 10 differentially expressed genes for accumulated SMN in each spatial neighborhood of Dermal cells.
-```r
-spatial.neighbor.Dermal$neighbor.marker %>%
-  group_by(cluster) %>%
-  top_n(n = 10, wt = avg_log2FC) -> top10
-Seurat::DoHeatmap(spatial.neighbor.Dermal$bulk.count.obj,assay = "SCT", features = top10$gene,group.colors = brewer.pal(4,"Greens")) + NoLegend()+scale_fill_viridis()+theme(axis.text = element_text(size = 16,face = "bold"))
-```
-![](img/Fib.spatial.neighbor.heatmap.png)
-
-
-## 4. Session Information
+## 3. Session Information
 
 ```r
 sessionInfo()
