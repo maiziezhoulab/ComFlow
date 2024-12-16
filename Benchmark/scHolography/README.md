@@ -77,11 +77,60 @@ library(viridis)
 
 Load data into our workspace:
 ```r
-low.res.sp<-readRDS("~/Downloads//low.res.human.sk.rds")
-high.res.sp<-readRDS("~/Downloads//high.res.human.sk.rds")
+data_list=c('151507','151508','151509','151510')
+create_obj<-function(data_name,slice_order){
+matrix_dir=pathJoin('/home/data3/yuling/xenium_region2_5599/Dataset/DLPFC12',data_name,'filtered_feature_bc_matrix/')
+  counts = Seurat::Read10X(data.dir = matrix_dir) 
+  data = Seurat::CreateSeuratObject(
+    counts = counts , 
+    project = 'test', 
+    assay = 'Spatial')
+  data$slice = slice_order
+  data$region = 'test' 
+  imgpath = pathJoin('/home/data3/yuling/xenium_region2_5599/Dataset/DLPFC12',data_name,'spatial')
+  img = Seurat::Read10X_Image(image.dir = imgpath)  
+  Seurat::DefaultAssay(object = img) <- 'Spatial'  
+  img = img[colnames(x = data)]  
+  data[['image']] = img
+ 
+  meta_1<-read.csv(pathJoin('/home/data3/yuling/xenium_region2_5599/Dataset/DLPFC12', data_name,'gt/tissue_positions_list_GTs.txt'),header=FALSE)
+  colnames(meta_1)[7] <- "original_clusters"
+  colnames(meta_1)[1] <- "cell_id"
+  meta_1<-meta_1[order(meta_1$cell_id),]
+  rownames(meta_1)<-meta_1$cell_id
+  data <- AddMetaData(data, metadata =meta_1['original_clusters'],col.name = "original_clusters")
+  seurat_obj<- RenameCells(data, add.cell.id = paste0("Obj",slice_order))
+  return (seurat_obj)
+}
 ```
 ```r
-Seurat::DimPlot(high.res.sp,group.by = "celltype",cols = c("#A6CEE3","#79C360", "#3F8EAA",  "#B89B74", "#E52829", "#FDB762", "#ED8F47", "#9471B4" ,"#DDD399" ,"#B15928"))+ggplot2::ggtitle("")
+slice_num=1
+data_1<-create_obj(data_name = data_list[slice_num],slice_order = slice_num)
+data_2<-create_obj(data_name = data_list[slice_num+1],slice_order = slice_num+1)
+data_3<-create_obj(data_name = data_list[slice_num+2],slice_order = slice_num+2)
+data_4<-create_obj(data_name = data_list[slice_num+3],slice_order = slice_num+3)
+
+data_1<-subset(data_1,cells=which(is.na(data_1$original_clusters)==F))
+data_2<-subset(data_2,cells=which(is.na(data_2$original_clusters)==F))
+data_3<-subset(data_3,cells=which(is.na(data_3$original_clusters)==F))
+data_4<-subset(data_4,cells=which(is.na(data_4$original_clusters)==F))
+####### align data to reference space
+data_1@meta.data[,c("CentroidX","CentroidY")]<-data_1@images$image@coordinates[,c("imagerow","imagecol")]
+data_2@meta.data[,c("CentroidX","CentroidY")] <- t(t(data_2@images$image@coordinates[,c("imagerow","imagecol")])-c(median(data_2@images$image@coordinates[,c("imagerow")]),median(data_2@images$image@coordinates[,c("imagecol")]))+c(median(data_1@images$image@coordinates[,c("imagerow")]),median(data_1@images$image@coordinates[,c("imagecol")])))
+data_3@meta.data[,c("CentroidX","CentroidY")] <- t(t(data_3@images$image@coordinates[,c("imagerow","imagecol")])-c(median(data_3@images$image@coordinates[,c("imagerow")]),median(data_3@images$image@coordinates[,c("imagecol")]))+c(median(data_1@images$image@coordinates[,c("imagerow")]),median(data_1@images$image@coordinates[,c("imagecol")])))
+data_4@meta.data[,c("CentroidX","CentroidY")] <- t(t(data_4@images$image@coordinates[,c("imagerow","imagecol")])-c(median(data_4@images$image@coordinates[,c("imagerow")]),median(data_4@images$image@coordinates[,c("imagecol")]))+c(median(data_1@images$image@coordinates[,c("imagerow")]),median(data_1@images$image@coordinates[,c("imagecol")])))
+combined_obj <- merge(
+  x = data_1,
+  y = data_2,
+  project = "CombinedProject")
+combined_obj <- merge(
+  x = combined_obj,
+  y = data_3,
+  project = "CombinedProject")
+combined_obj <- merge(
+  x = combined_obj,
+  y = data_4,
+  project = "CombinedProject")
 ```
 ![](img/skin.sc.umap.png)
 
