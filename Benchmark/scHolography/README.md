@@ -59,11 +59,7 @@ library(scHolography)
 
 ## 1. scHolography 3D Reconstruction
 
-For demonstration, we are using our in-house human skin mouse brain data. The pocessed Seurat objects can be downloaded from:
-
-The human skin scRNA-seq data: https://drive.google.com/file/d/1J-TKEcv5Lmom19mSSFLfgnI9JnBtW_Au/view?usp=sharing
-
-The human skin ST 10X Visium data: https://drive.google.com/file/d/1aF0zv5uEHu-42BJQWXtkLy7qrf9ELfq9/view?usp=sharing
+For demonstration, we are using one sample of our DLPFC data.  
 
 Load packages:
 ```r
