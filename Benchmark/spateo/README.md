@@ -105,3 +105,5 @@ It is important to keep the submodule up to date with the main repository and th
    ```
 Once you finish the above, check the link directory (something like spateo-tutorials @ 8e372ee) under the `docs` folder to make sure the related commit (such as 8e372ee) is the same as the latest one in the spateo-tutorials repository. If not, you may need to redo the above procedure again. 
 
+## 3D Reconstruction workflow:
+[Google style](https://spateo-release.readthedocs.io/en/latest/tutorials/notebooks/3_alignment/5.%203D%20reconstruction%20workflow.html)
