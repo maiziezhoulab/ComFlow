@@ -107,3 +107,8 @@ Once you finish the above, check the link directory (something like spateo-tutor
 
 ## 3D Reconstruction workflow:
 [Google style](https://spateo-release.readthedocs.io/en/latest/tutorials/notebooks/3_alignment/5.%203D%20reconstruction%20workflow.html)
+
+## Improve Efficiency and Scalibity 
+[Google style](https://spateo-release.readthedocs.io/en/latest/tutorials/notebooks/3_alignment/4.%20Improve%20efficiency%20and%20scalibity.html)
+This tutorial introduce several methods that can significantly accelerate runtime and increase scalability for Spateo alignment. Specifically, Spateo incorporates GPU hardware acceleration, sparse computation, stochastic variational inference (SVI), inducing variables, and downsampling techniques. These methods will enable Spateo to efficiently handle various types of data.
+ 
