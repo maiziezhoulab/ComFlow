@@ -22,7 +22,8 @@ Installation
 You can install **moscot** via::
 
     pip install moscot
-    # You can GPU acceleration by installing JAX (e.g. we use NVIDIA GPU)
+    # You can use GPU acceleration by installing JAX (e.g. we use NVIDIA GPU)
+    pip install -U "jax[cuda12]"
 
 In order to install **moscot** from in editable mode, run::
 
