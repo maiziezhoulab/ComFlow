@@ -19,7 +19,7 @@ differentiation and linear memory complexity for OT problems.
 
 Installation
 ------------
-python
+**moscot** requires Python version >= 3.10 to run.
 You can install **moscot** via::
 
     pip install moscot
