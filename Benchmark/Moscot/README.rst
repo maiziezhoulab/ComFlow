@@ -19,6 +19,7 @@ differentiation and linear memory complexity for OT problems.
 
 Installation
 ------------
+python
 You can install **moscot** via::
 
     pip install moscot
