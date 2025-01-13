@@ -34,6 +34,10 @@ In order to install **moscot** from in editable mode, run::
 
 For further instructions how to install jax, please refer to https://github.com/google/jax.
 
+Hyperparameters setting
+---------
+please refer to https://github.com/theislab/moscot/issues/776#issuecomment-2587983644. 
+
 Resources
 ---------
 
