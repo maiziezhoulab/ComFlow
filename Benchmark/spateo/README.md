@@ -57,6 +57,25 @@ Spateo, whole embryo 3D spatial transcriptomics, 3D reconstruction, Stereo-seq, 
     - discuss with lab members and merge into the main branch once all checks pass
 - Follow Python [Google code style](https://google.github.io/styleguide/pyguide.html)
 
+## Installation
+- Spateo can be installed either by downloading a release uploaded to the Python Package Index (PyPI), or the most up-to-date version directly from our GitHub repository.
+# PyPI
+```
+pip install spateo-release
+```
+# MPI
+```
+conda install mpi4py
+```
+# GitHub
+```
+pip install git+https://github.com/aristoteleo/spateo-release
+# To install from a specific GitHub branch ({branch} is the branch name)
+pip install git+https://github.com/aristoteleo/spateo-release@{branch}
+```
+
+
+
 ## Code quality
 - File and function docstrings should be written in [Google style](https://google.github.io/styleguide/pyguide.html)
 - We use `black` to automatically format code in a standardized format. To ensure that any code changes are up to standard, use `pre-commit` as such.
