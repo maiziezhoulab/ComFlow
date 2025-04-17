@@ -119,7 +119,6 @@ The corresponding datasets' code has been uploaded in the five folders. Since th
 
 Each 3D result is saved separately in individual CSV files for better organization and accessibility. These files store 3D coordinate values and relevant data.
 
-### **Plotting 3D Results**
-
-In the *Plot 3D* section of the analysis, all individual CSV files are merged and visualized as a combined 3D plot. This ensures a comprehensive view of the results across multiple experiments or datasets.
-
+## Appendix 
+1. Executed on GPU
+2. The unit of runtime is minute(min) + seconds (s).
