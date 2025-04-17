@@ -70,8 +70,6 @@ install_pyg_dependencies
 ```
 
 
-## Reproduce manuscript results
-1. Please follow the [`env/README.md`](env/README.md) to install all dependencies. Please checkout the repository to v0.2.1 before install `scSLAT`.
-2. Download and pre-process data follow the [`data/README.md`](data/README.md).
-3. Whole benchmark and evaluation procedure can be found in [`/benchmark`](benchmark/README.md) and [`/evaluation`](evaluation/README.md), respectively.
-4. Every case study is recorded in the [`/case`](case/README.md) directory in the form of jupyter notebook.
+## Appendix
+1. The unit of runtime is seconds (s).
+2. Executed on GPU.
