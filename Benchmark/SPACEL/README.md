@@ -66,3 +66,7 @@ python
 >>> torch.cuda.is_available()
 ```
 If these command line have not return `True`, please check your gpu driver version and `cudatoolkit` version. For more detail, look at [CUDA Toolkit Major Component Versions](https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html#cuda-major-component-versions).
+
+## Appendix
++ Alignment was executed on CPU.
++ The unit of runtime is seconds (s).
