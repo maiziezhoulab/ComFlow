@@ -3,7 +3,7 @@ ComFlow: an optimal transport framework for deciphering intra-
 and intercellular signaling landscapes in 2D and 3D tissue systems
 
 ## Installation
-Install from PyPI by pip install comflow or install from source by cd to this directory and pip install .
+Install from PyPI by ```python pip install comflow```or install from source by cd to this directory and pip install .
 
 [Optional] Install tradeSeq in R to analyze the CCC differentially expressed genes.
 Currently, tradeSeq version 1.0.1 with R version 3.6.3 has been tested to work.
