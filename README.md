@@ -1,16 +1,16 @@
-# LocalSTAligner
+# ComFlow
 ComFlow: an optimal transport framework for deciphering intra-
 and intercellular signaling landscapes in 2D and 3D tissue systems
 
-Installation
+## Installation
 Install from PyPI by pip install comflow or install from source by cd to this directory and pip install .
 
 [Optional] Install tradeSeq in R to analyze the CCC differentially expressed genes.
 Currently, tradeSeq version 1.0.1 with R version 3.6.3 has been tested to work.
 In order for the R-python interface to work properly, rpy2==3.4.2 and anndata2ri==1.0.6 should be installed. To use this feature, install from PyPI by pip install comflow[tradeSeq] or from source by pip install .[tradeSeq].
 
-Usage
-Basic usage
+## Usage
+### Basic usage
 
 Import packages
 
@@ -38,8 +38,8 @@ Use collective optimal transport to construct CCC networks for the ligand-recept
 
 cf.tl.spatial_communication(adata,
     database_name=database_name, df_ligrec=df_filtered, pathways=pathways, co_exp_ratio=co_exp_ratio, dis_thr=dis_thr, heteromeric=True, pathway_sum=True, copy = True)
-Documentation
+## Documentation
 See detailed documentation and examples at [https://comflow.readthedocs.io/en/latest/index.html.](https://comflow.readthedocs.io/en/latest/index.html.)
 
-References
+## References
 Xie, M. B., Zhu, Y., Hu, Y., Kim, M., Liu, Y. H., Huang, J., Li, B., Rafat, M., Meltzer,S., Hwang, T. H., Cang, Z., Zhao, Y., Zhou, X. M.. ComFlow: an optimal transport framework for deciphering intra- and intercellular signaling landscapes in 2D and 3D tissue systems. 
