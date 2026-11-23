@@ -37,6 +37,11 @@ df_ligrec = pd.DataFrame(data=LR)
 ```
 (or use pairs from a ligand-receptor database ```python df_ligrec=ct.pp.ligand_receptor_database(database='CellChat', species='mouse')```.)
 
+Specify downstream pathways 
+```python
+DSdatabaseN = 'pathways'
+pathways = cf.pp.downstream_database(DSdatabase=DSdatabaseN)
+```
 Construct CCC networks
 Use collective optimal transport to construct CCC networks for the ligand-receptor pairs with a spatial distance constraint of 200 (coupling between cells with distance greater than 200 is prohibited). For example, the spot-by-spot matrix for the pair Tgfb1 (ligand) and Tgfbr1_Tgfbr2 (receptor)is stored in adata.obsp['comflow-user_database-Tgfb1-Tgfbr1_Tgfbr2']. The total sent or received signal for each pair is stored in adata.obsm['comflow-user_database-sum-sender'] and adata.obsm['comflow-user_database-sum-receiver'].
 ```python
